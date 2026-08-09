@@ -23,7 +23,7 @@ QoderWork and IDEA plugin were unavailable as real source surfaces and remain sy
 - `npm audit --audit-level=high`: 0 vulnerabilities.
 - `npm pack --dry-run`: 23,365 bytes packed, 86,254 bytes unpacked, 24 files.
 
-Safety: temporary workspace=C:\Users\Tzhang\AppData\Local\Temp\qoder-operational-loop-1Ygmug; synthetic HMAC/body; local bare remote; no employee data, real spool, logs, settings, or GitHub; current repo not committed.
+Safety: the loop used a temporary workspace, synthetic HMAC/body, and a local bare remote; it did not use employee data, real spool, logs, settings, or GitHub. The repository was committed and pushed only after validation and sensitive-data review.
 
 ## Isolated synthetic results
 
