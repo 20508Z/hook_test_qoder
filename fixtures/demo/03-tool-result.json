@@ -1,0 +1,1 @@
+{"ide_product":"qoder","ide_version":"1.9.0","hook_event_name":"PostToolUse","event_id":"demo-tool-result","session_id":"demo-session","tool_call_id":"demo-tool","tool_name":"Write","tool_response":{"output":"DEMO_TOOL_OUTPUT_BODY_MUST_NOT_PERSIST","success":true},"duration_ms":27,"timestamp":"2026-08-04T04:00:02.000Z"}

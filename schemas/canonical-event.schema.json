@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/qoder-code-attribution-hook/schemas/canonical-event.schema.json",
+  "title": "Qoder code attribution event",
+  "description": "Metadata-only Qoder Hook event. Prompt, response, code, command, output, error, and diff content are never persisted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "source_fingerprint", "event_time", "observed_at", "ide", "event", "native_event", "employee_id", "device_id", "session_id", "workspace_id", "correlation", "tool", "result", "usage", "privacy", "source"],
+  "properties": {
+    "schema_version": { "const": "2.1" },
+    "event_id": { "type": "string", "format": "uuid" },
+    "source_fingerprint": { "$ref": "#/$defs/digest" },
+    "event_time": { "$ref": "#/$defs/nullableTimestamp" },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "ide": { "type": "object", "additionalProperties": false, "required": ["product"], "properties": { "product": { "const": "qoder" } } },
+    "event": { "enum": ["tool_start", "tool_end", "tool_error"] },
+    "native_event": { "$ref": "#/$defs/nullableLabel" },
+    "employee_id": { "$ref": "#/$defs/nullableDigest" },
+    "device_id": { "$ref": "#/$defs/nullableDigest" },
+    "session_id": { "$ref": "#/$defs/nullableDigest" },
+    "workspace_id": { "$ref": "#/$defs/nullableDigest" },
+    "correlation": { "type": "object", "additionalProperties": false, "required": ["tool_call_id"], "properties": { "tool_call_id": { "$ref": "#/$defs/nullableDigest" } } },
+    "tool": {
+      "type": "object", "additionalProperties": false, "required": ["name", "file_extension", "file_name_hmac", "file_type", "path_hmac"],
+      "properties": {
+        "name": { "enum": ["write", "edit", "command", "other", null] },
+        "file_extension": { "$ref": "#/$defs/nullableLabel" },
+        "file_name_hmac": { "$ref": "#/$defs/nullableDigest" },
+        "file_type": { "enum": ["source_code", "documentation", "configuration", "data", "notebook", "other", null] },
+        "path_hmac": { "$ref": "#/$defs/nullableDigest" },
+        "command_family": { "enum": ["shell", null] },
+        "shell": { "enum": ["bash", "powershell", "cmd", null] }
+      }
+    },
+    "result": { "type": "object", "additionalProperties": false, "required": ["status"], "properties": { "status": { "enum": ["success", "failure", "blocked", "unknown", null] } } },
+    "usage": {
+      "type": "object", "additionalProperties": false, "required": ["model_id", "model_call_id", "credits_used"],
+      "properties": {
+        "model_id": { "$ref": "#/$defs/nullableDigest" },
+        "model_call_id": { "$ref": "#/$defs/nullableDigest" },
+        "credits_used": { "anyOf": [{ "type": "number", "minimum": 0 }, { "type": "null" }] }
+      }
+    },
+    "privacy": { "type": "object", "additionalProperties": false, "required": ["content_stored", "redaction_version"], "properties": { "content_stored": { "const": false }, "redaction_version": { "const": "2.0" } } },
+    "source": { "type": "object", "additionalProperties": false, "required": ["receiver_version", "input_fingerprint", "native_schema_version", "surface"], "properties": { "receiver_version": { "type": "string", "minLength": 1, "maxLength": 64 }, "input_fingerprint": { "$ref": "#/$defs/digest" }, "native_schema_version": { "$ref": "#/$defs/nullableLabel" }, "surface": { "enum": ["ide", "cli", "qoderwork", "idea_plugin", "unknown"] } } }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "nullableDigest": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] },
+    "nullableTimestamp": { "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }] },
+    "nullableLabel": { "anyOf": [{ "type": "string", "maxLength": 512 }, { "type": "null" }] }
+  }
+}

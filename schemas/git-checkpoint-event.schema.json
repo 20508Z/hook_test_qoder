@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/qoder-code-attribution-hook/schemas/git-checkpoint-event.schema.json",
+  "title": "Qoder Git attribution checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "source_fingerprint", "event", "ide", "employee_id", "workspace_id", "commit_hmac", "parent_commit_hmac", "branch_hmac", "remote_ref_hmac", "file_count", "committed_lines", "ai_accepted_lines", "ai_then_human_modified_lines", "human_authored_lines", "commit_ai_ratio", "files", "confirmation", "privacy", "source"],
+  "properties": {
+    "schema_version": { "const": "git-checkpoint/1.0" },
+    "event_id": { "type": "string", "format": "uuid" },
+    "source_fingerprint": { "$ref": "#/$defs/digest" },
+    "event": { "enum": ["commit_checkpoint", "push_checkpoint"] },
+    "ide": { "type": "object", "additionalProperties": false, "required": ["product"], "properties": { "product": { "const": "qoder" } } },
+    "employee_id": { "$ref": "#/$defs/nullableDigest" },
+    "workspace_id": { "$ref": "#/$defs/digest" },
+    "commit_hmac": { "$ref": "#/$defs/digest" },
+    "parent_commit_hmac": { "$ref": "#/$defs/nullableDigest" },
+    "branch_hmac": { "$ref": "#/$defs/nullableDigest" },
+    "remote_ref_hmac": { "$ref": "#/$defs/nullableDigest" },
+    "file_count": { "$ref": "#/$defs/count" },
+    "committed_lines": { "$ref": "#/$defs/count" },
+    "ai_accepted_lines": { "$ref": "#/$defs/count" },
+    "ai_then_human_modified_lines": { "$ref": "#/$defs/count" },
+    "human_authored_lines": { "$ref": "#/$defs/count" },
+    "commit_ai_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path_hmac", "file_name_hmac", "file_extension", "file_type", "committed_lines", "ai_accepted_lines", "ai_then_human_modified_lines", "human_authored_lines"],
+        "properties": {
+          "path_hmac": { "$ref": "#/$defs/digest" },
+          "file_name_hmac": { "$ref": "#/$defs/digest" },
+          "file_extension": { "$ref": "#/$defs/nullableLabel" },
+          "file_type": { "enum": ["source_code", "documentation", "configuration", "data", "notebook", "other"] },
+          "committed_lines": { "$ref": "#/$defs/count" },
+          "ai_accepted_lines": { "$ref": "#/$defs/count" },
+          "ai_then_human_modified_lines": { "$ref": "#/$defs/count" },
+          "human_authored_lines": { "$ref": "#/$defs/count" }
+        }
+      }
+    },
+    "confirmation": { "enum": ["local_git_object", "local_remote_tracking_ref"] },
+    "privacy": { "type": "object", "additionalProperties": false, "required": ["content_stored"], "properties": { "content_stored": { "const": false } } },
+    "source": { "type": "object", "additionalProperties": false, "required": ["input_fingerprint"], "properties": { "input_fingerprint": { "$ref": "#/$defs/digest" } } }
+  },
+  "$defs": {
+    "count": { "type": "integer", "minimum": 0 },
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "nullableDigest": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] },
+    "nullableLabel": { "anyOf": [{ "type": "string", "maxLength": 32 }, { "type": "null" }] }
+  }
+}

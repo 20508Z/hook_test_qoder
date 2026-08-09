@@ -1,0 +1,8 @@
+node_modules/
+.spool/
+.qoder-test/
+coverage/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

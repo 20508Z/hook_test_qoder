@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/qoder-code-attribution-hook/schemas/diff-attribution-event.schema.json",
+  "title": "Qoder code attribution diff event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "source_fingerprint", "event", "ide", "employee_id", "session_id", "tool_call_id", "workspace_id", "path_hmac", "file_name_hmac", "file_extension", "file_type", "before_digest", "after_digest", "added", "deleted", "modified", "final_retained_ai_lines", "ai_then_human_modified_lines", "attribution_confidence", "ide_save_evidence", "capture_status", "skip_reason", "workspace_scan_complete", "privacy", "source"],
+  "properties": {
+    "schema_version": { "const": "diff-attribution/2.1" },
+    "event_id": { "type": "string", "format": "uuid" },
+    "source_fingerprint": { "$ref": "#/$defs/digest" },
+    "event": { "enum": ["ai_diff", "ai_command_diff", "manual_candidate_diff"] },
+    "ide": { "type": "object", "additionalProperties": false, "required": ["product"], "properties": { "product": { "const": "qoder" } } },
+    "employee_id": { "$ref": "#/$defs/nullableDigest" },
+    "session_id": { "$ref": "#/$defs/nullableDigest" },
+    "tool_call_id": { "$ref": "#/$defs/nullableDigest" },
+    "workspace_id": { "$ref": "#/$defs/digest" },
+    "path_hmac": { "$ref": "#/$defs/digest" },
+    "file_name_hmac": { "$ref": "#/$defs/digest" },
+    "file_extension": { "$ref": "#/$defs/nullableLabel" },
+    "file_type": { "enum": ["source_code", "documentation", "configuration", "data", "notebook", "other"] },
+    "before_digest": { "$ref": "#/$defs/nullableDigest" },
+    "after_digest": { "$ref": "#/$defs/nullableDigest" },
+    "added": { "$ref": "#/$defs/count" },
+    "deleted": { "$ref": "#/$defs/count" },
+    "modified": { "$ref": "#/$defs/count" },
+    "final_retained_ai_lines": { "$ref": "#/$defs/count" },
+    "ai_then_human_modified_lines": { "$ref": "#/$defs/count" },
+    "attribution_confidence": { "enum": ["high", "medium", "low"] },
+    "ide_save_evidence": { "type": "boolean" },
+    "capture_status": { "enum": ["captured", "unsupported"] },
+    "skip_reason": { "enum": ["binary_file", "file_too_large", "non_utf8_file", "not_regular_file", "symlink_outside_workspace", null] },
+    "workspace_scan_complete": { "type": "boolean" },
+    "privacy": { "type": "object", "additionalProperties": false, "required": ["content_stored"], "properties": { "content_stored": { "const": false } } },
+    "source": { "type": "object", "additionalProperties": false, "required": ["input_fingerprint"], "properties": { "input_fingerprint": { "$ref": "#/$defs/digest" } } }
+  },
+  "$defs": {
+    "count": { "type": "integer", "minimum": 0 },
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "nullableDigest": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] }
+    ,"nullableLabel": { "anyOf": [{ "type": "string", "maxLength": 32 }, { "type": "null" }] }
+  }
+}

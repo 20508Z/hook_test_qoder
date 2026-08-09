@@ -1,0 +1,13 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "*", "hooks": [{ "type": "command", "command": "\"D:\\Program Files\\nodejs\\node.exe\" \"<INSTALL_DIR>/bin/with-dpapi-env.js\" --hmac-secret-file \"<SECRET_DIR>/qoder/hmac.dpapi\" -- \"D:\\Program Files\\nodejs\\node.exe\" \"<INSTALL_DIR>/bin/hook-receiver.js\" --ide qoder --surface ide --diff-pipe qoder-attribution-v1 --spool-dir \"<SPOOL_DIR>/qoder\"" }] }
+    ],
+    "PostToolUse": [
+      { "matcher": "*", "hooks": [{ "type": "command", "command": "\"D:\\Program Files\\nodejs\\node.exe\" \"<INSTALL_DIR>/bin/with-dpapi-env.js\" --hmac-secret-file \"<SECRET_DIR>/qoder/hmac.dpapi\" -- \"D:\\Program Files\\nodejs\\node.exe\" \"<INSTALL_DIR>/bin/hook-receiver.js\" --ide qoder --surface ide --diff-pipe qoder-attribution-v1 --spool-dir \"<SPOOL_DIR>/qoder\"" }] }
+    ],
+    "PostToolUseFailure": [
+      { "matcher": "*", "hooks": [{ "type": "command", "command": "\"D:\\Program Files\\nodejs\\node.exe\" \"<INSTALL_DIR>/bin/with-dpapi-env.js\" --hmac-secret-file \"<SECRET_DIR>/qoder/hmac.dpapi\" -- \"D:\\Program Files\\nodejs\\node.exe\" \"<INSTALL_DIR>/bin/hook-receiver.js\" --ide qoder --surface ide --diff-pipe qoder-attribution-v1 --spool-dir \"<SPOOL_DIR>/qoder\"" }] }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "qoder-code-attribution-hook",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Qoder-only metadata Hook and local code attribution companion",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "schemas/",
+    "config/examples/qoder.settings.fragment.json"
+  ],
+  "bin": {
+    "qoder-hook": "./bin/hook-receiver.js",
+    "qoder-diff-companion": "./bin/diff-companion.js",
+    "qoder-dpapi-secret": "./bin/dpapi-secret.js",
+    "qoder-with-dpapi-env": "./bin/with-dpapi-env.js"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1",
+    "receive": "node ./bin/hook-receiver.js",
+    "diff-companion": "node ./bin/diff-companion.js",
+    "dpapi-secret": "node ./bin/dpapi-secret.js",
+    "with-dpapi-env": "node ./bin/with-dpapi-env.js"
+  },
+  "dependencies": {
+    "diff": "^8.0.3"
+  }
+}

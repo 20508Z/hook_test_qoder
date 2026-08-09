@@ -1,0 +1,1 @@
+{"ide_product":"qoder","ide_version":"1.9.0","hook_event_name":"PreToolUse","event_id":"demo-agent-operation","session_id":"demo-session","tool_call_id":"demo-tool","tool_name":"Write","tool_input":{"content":"DEMO_AGENT_CODE_BODY_MUST_NOT_PERSIST"},"timestamp":"2026-08-04T04:00:01.000Z"}
